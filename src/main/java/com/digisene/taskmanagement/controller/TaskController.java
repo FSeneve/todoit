@@ -2,6 +2,7 @@ package com.digisene.taskmanagement.controller;
 
 import com.digisene.taskmanagement.dto.TaskDto;
 import com.digisene.taskmanagement.service.TaskService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/tasks")
 @AllArgsConstructor
+@Tag(name = "Task Controller", description = "Operations about tasks")
 public class TaskController {
 
     private TaskService taskService;
