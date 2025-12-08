@@ -1,6 +1,5 @@
 package com.digisene.taskmanagement.dto;
 
-import com.digisene.taskmanagement.entity.Category;
 import com.digisene.taskmanagement.enums.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

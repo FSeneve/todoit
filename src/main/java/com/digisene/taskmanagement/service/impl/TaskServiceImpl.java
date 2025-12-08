@@ -34,16 +34,21 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDto createTask(TaskDto taskDto) {
+        // 1. Vérifier que la catégorie existe
+        Category category = categoryRepository.findById(taskDto.categoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + taskDto.categoryId()));
 
-        Category category = categoryRepository.findById(taskDto.categoryId()).orElseThrow(()->new ResourceNotFoundException("Category not found"));
-
+        // 2. Créer la tâche
         Task task = new Task();
-
-        task.setCategory(category);
-        task.setDescription(taskDto.description());
         task.setTitle(taskDto.title());
+        task.setDescription(taskDto.description());
         task.setStatus(taskDto.status());
+        task.setCategory(category);
+
+        // 3. Sauvegarder la tâche
         Task savedTask = taskRepository.save(task);
+
+        // 4. Retourner le DTO
         return taskMapper.toDto(savedTask);
     }
 
