@@ -35,9 +35,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskDto createTask(TaskDto taskDto) {
         // 1. Vérifier que la catégorie existe
-        Category category = categoryRepository.findById(taskDto.categoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + taskDto.categoryId()));
-
+        Category category = findCategoryById(taskDto.categoryId());
         // 2. Créer la tâche
         Task task = new Task();
         task.setTitle(taskDto.title());
@@ -54,11 +52,26 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDto updateTask(TaskDto taskDto, Long id) {
-        return null;
+        Category category = findCategoryById(taskDto.categoryId());
+        Task task = taskRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Task not found"));
+        task.setTitle(taskDto.title());
+        task.setDescription(taskDto.description());
+        task.setStatus(taskDto.status());
+        task.setCategory(category);
+        Task savedTask = taskRepository.save(task);
+
+        return taskMapper.toDto(savedTask);
     }
 
     @Override
     public void deleteTaskById(Long id) {
+        taskRepository.deleteById(id);
+    }
 
+    //Fonction interne pour trouver une catégorie
+    public Category findCategoryById(Long id) {
+
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
     }
 }
