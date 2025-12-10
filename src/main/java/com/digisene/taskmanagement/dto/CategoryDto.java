@@ -1,4 +1,6 @@
 package com.digisene.taskmanagement.dto;
 
-public record CategoryDto(String name, String description) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record CategoryDto(String name, String description, @JsonProperty("user_id") Long userId) {
 }

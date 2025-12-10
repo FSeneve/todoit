@@ -8,15 +8,16 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface TaskMapper {
-    // Mapper l'ID de la catégorie depuis task.category.id vers taskDto.categoryId
+
+    // ENTITY -> DTO
     @Mapping(source = "category.id", target = "categoryId")
+    @Mapping(source = "user.id", target = "userId")
     TaskDto toDto(Task task);
 
-    // Ignorer la catégorie lors de la conversion DTO -> Entity
-    // (la catégorie sera définie manuellement dans le service)
+    // DTO -> ENTITY
     @Mapping(target = "category", ignore = true)
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "id", ignore = true)
     Task toEntity(TaskDto taskDto);
-
-    TaskResponseDto toResponseDto(Task task);
 }
+
